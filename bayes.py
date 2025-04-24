@@ -36,7 +36,7 @@ def chat_with_groq(prompt, context):
 # Interface
 def main():
     st.title("Sistema de Organização de Estudos")
-    st.image(LOGO_PATH, width=200, caption="Sistema Inteligente")
+    st.image(LOGO_PATH, width=300, caption="Sistema Inteligente")
 
     # Carregar automaticamente o texto do PDF
     if "document_text" not in st.session_state:
