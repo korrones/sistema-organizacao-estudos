@@ -15,9 +15,11 @@ client = Groq(api_key=GROQ_API_KEY)
 def extract_files(uploader):
     text = ""
     for pdf in uploader:
-        with fitz.open(stream=pdf.read(), filetype="pdf") as doc: 
-            for page in doc:
-                text += page.get_text("text") 
+        pdf_bytes = pdf.read()
+        doc = fitz.Document(stream=pdf_bytes, filetype="pdf")  # forma alternativa
+        for page in doc:
+            text += page.get_text("text")
+        doc.close()
     return text
 
 # Motor de inferência para o sistema inteligente
