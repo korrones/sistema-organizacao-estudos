@@ -1,9 +1,9 @@
 import streamlit as st
-import fitz  
-from groq import Groq  
-import os
+import fitz
+from groq import Groq
+import os  # NOVO
 
-# Caminho dinâmico da imagem
+# Caminho dinâmico da imagem (NOVO)
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOGO_PATH = os.path.join(CURRENT_DIR, "logo.png")
 
@@ -11,15 +11,16 @@ LOGO_PATH = os.path.join(CURRENT_DIR, "logo.png")
 GROQ_API_KEY = "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"
 client = Groq(api_key=GROQ_API_KEY)
 
-# Função para extrair texto dos PDFs
-def extract_text_from_pdfs(uploaded_pdfs):
+# função para extrair os arquivos     
+def extract_files(uploader):
     text = ""
-    for pdf in uploaded_pdfs:
+    for pdf in uploader:
         with fitz.open(stream=pdf.read(), filetype="pdf") as doc: 
             for page in doc:
                 text += page.get_text("text") 
     return text
 
+# Motor de inferência para o sistema inteligente
 def chat_with_groq(prompt, context):
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
@@ -28,24 +29,24 @@ def chat_with_groq(prompt, context):
             {"role": "user", "content": f"{context}\n\nPergunta: {prompt}"}
         ]
     )
-    return response.choices[0].message.content
-
-# Interface
+    return response.choices[0].message.content    
+    
+# CRIAR A INTERFACE
 def main():
-    st.title("Chat Inteligente")
-    st.image(LOGO_PATH, width=200, caption="Sistema Inteligente")
+    st.title("O nome do meu sistema inteligente")
+    st.image(LOGO_PATH, width=200, caption="Sistema Inteligente")  # NOVO
 
     with st.sidebar:
-        st.header("Upload de arquivos PDF")
-        uploaded_pdfs = st.file_uploader("Adicione arquivos PDF", type="pdf", accept_multiple_files=True)
+        st.header("UPLoader Files")
+        uploader = st.file_uploader("Adicione arquivos", type="pdf", accept_multiple_files=True)
 
-    if uploaded_pdfs:
-        text = extract_text_from_pdfs(uploaded_pdfs)
-        st.session_state["document_text"] = text  
+    if uploader:
+        text = extract_files(uploader)
+        st.session_state["document_text"] = text  # ALTERADO
 
-    user_input = st.text_input("Digite sua pergunta:")
-    
-    if user_input and "document_text" in st.session_state:
+    user_input = st.text_input("Digite a sua pergunta")
+
+    if user_input and "document_text" in st.session_state:  # NOVO
         response = chat_with_groq(user_input, st.session_state["document_text"])
         st.write("Resposta:", response)
 
