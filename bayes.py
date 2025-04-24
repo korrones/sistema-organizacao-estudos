@@ -8,7 +8,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOGO_PATH = os.path.join(CURRENT_DIR, "logo.png")
 
 # Caminho do PDF a ser carregado automaticamente
-PDF_PATH = os.path.join(CURRENT_DIR, "meu_arquivo.pdf")  # <- Substitua pelo nome do seu PDF
+PDF_PATH = os.path.join(CURRENT_DIR, "Planejamento de Estudos - IA.pdf")  # <- Substitua pelo nome do seu PDF
 
 # Configurar chave da Groq
 GROQ_API_KEY = "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"
