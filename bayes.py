@@ -62,7 +62,7 @@ def main():
             st.error(f"Erro ao carregar o PDF: {e}")
             return
 
-    # Campo para digitar a pergunta
+    
     user_input = st.text_input("Digite a sua pergunta")
 
     if user_input and "document_text" in st.session_state:
